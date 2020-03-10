@@ -13,15 +13,22 @@
 # |   M   |  77   |  109  |
 
 defmodule Solution do
-  def decode([head | tail] ) when head in [73, 86, 88, 76, 67, 68, 77] do
-    IO.puts("starts with uppercase Roman Numeral")
+  def decode(list, romanNums \\ [])
+  def decode([head | tail], romanNums) when head in [73, 86, 88, 76, 67, 68, 77] do
+    IO.puts("Uppercase Roman Numeral: #{[head]}")
+    decode(tail, romanNums ++ [head])
   end
 
-  def decode([head | tail]) when head in [105, 118, 120, 108, 99, 100, 109] do
-    IO.puts("starts with lowercase Roman Numeral")
+  def decode([head | tail], romanNums) when head in [105, 118, 120, 108, 99, 100, 109] do
+    IO.puts("Lowercase Roman Numeral: #{[head]}")
+    decode(tail, romanNums ++ [head - 32])
   end
 
-  def decode([head | tail]) do
-    IO.puts("Doesn't start with a Roman Numeral")
+  def decode([head | _tail], _romanNums) do
+    IO.puts("Illegal character: #{[head]}")
+  end
+
+  def decode([], romanNums) do
+    romanNums
   end
 end
