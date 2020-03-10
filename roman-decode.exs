@@ -14,7 +14,7 @@
 
 
 # Takes a Roman Numeral and returns it as a integer
-# Examples: 'I' -> 1, 'XV' -> 15, 'MDCLXVI' -> 1666 
+# Examples: 'I' -> 1, 'XIV' -> 14, 'MDCLXVI' -> 1666 
 defmodule Solution do
 
   # Decode first filters the input
@@ -57,9 +57,29 @@ defmodule Solution do
         romanToNum(tail, nums ++ [1000])        
     end
   end
-
+  # nums contains a integer representation for every roman numeral
   defp romanToNum([], nums) do
-    nums
+    romanSquash(nums)
+  end
+
+  defp romanSquash(nums, result \\ 0)
+  defp romanSquash([head, next | tail], result) do
+    # if head < next; subtract head from next, and add to result
+    if head < next do
+      romanSquash(tail, result + next - head)
+    # else just add head to result
+    else
+      romanSquash([next] ++ tail, result + head)
+    end
+    
+  end
+
+  defp romanSquash([head], result) do
+    head + result
+  end
+
+  defp romanSquash([], result) do
+    result
   end
 
 end
