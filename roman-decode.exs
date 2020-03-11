@@ -56,22 +56,16 @@ defmodule Solution do
   # Reduce a charlist of valid roman numerals to decimal integers
   defp roman_to_num(roman_nums, nums \\ [])
   defp roman_to_num([head | tail], nums) do
-    case head do
-      73 -> # I
-        roman_to_num(tail, nums ++ [1])
-      86 -> # V
-        roman_to_num(tail, nums ++ [5])
-      88 -> # X
-        roman_to_num(tail, nums ++ [10])
-      76 -> # L
-        roman_to_num(tail, nums ++ [50])
-      67 -> # C
-        roman_to_num(tail, nums ++ [100])
-      68 -> # D
-        roman_to_num(tail, nums ++ [500])
-      77 -> # M
-        roman_to_num(tail, nums ++ [1000])        
-    end
+    map = %{
+      73 => 1,
+      86 => 5,
+      88 => 10,
+      76 => 50,
+      67 => 100, 
+      68 => 500,
+      77 => 1000
+    }
+    roman_to_num(tail, nums ++ [map[head]])
   end
   # nums contains a integer representation for every roman numeral
   defp roman_to_num([], nums) do
