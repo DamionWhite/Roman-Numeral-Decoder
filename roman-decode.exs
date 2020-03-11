@@ -19,23 +19,37 @@ defmodule Solution do
   @uppercase_roman [73, 86, 88, 76, 67, 68, 77]
   @lowercase_roman [105, 118, 120, 108, 99, 100, 109]
 
-  # Decode first filters the input
-  def decode(roman_numeral, roman_nums \\ [])
+  def decode(roman) do
+    validate_roman(roman)
+  end
+
+  # Validate input
+  # Accepts UPPER- and lowercased Roman Numerals (MDCLXVI)
+  # Accepts charlists and strings
+  # Returns UPPERCASED Roman Numerals as charlist
+  defp validate_roman(roman_numeral) when is_bitstring roman_numeral do
+    IO.puts "String detected"
+    validate_roman(String.to_charlist(roman_numeral), [])
+  end
+  defp validate_roman(roman_numeral) when is_list roman_numeral do
+    IO.puts "List detected"
+    validate_roman(roman_numeral, [])
+  end
   # Only valid Roman Numerals pass
-  def decode([head | tail], roman_nums) when head in @uppercase_roman do
+  defp validate_roman([head | tail], roman_nums) when head in @uppercase_roman do
     IO.puts("Uppercase Roman Numeral: #{[head]}")
-    decode(tail, roman_nums ++ [head])
+    validate_roman(tail, roman_nums ++ [head])
   end
   # Lowercased Roman Numerals get capitalized
-  def decode([head | tail], roman_nums) when head in @lowercase_roman do
+  defp validate_roman([head | tail], roman_nums) when head in @lowercase_roman do
     IO.puts("Lowercase Roman Numeral: #{[head]}")
-    decode(tail, roman_nums ++ [to_uppercase(head)])
+    validate_roman(tail, roman_nums ++ [to_uppercase(head)])
   end
   # Catch any illegal character
-  def decode([head | _tail], _roman_nums) do
+  defp validate_roman([head | _tail], _roman_nums) do
     IO.puts("Illegal character: #{[head]}")
   end
-  def decode([], roman_nums) do
+  defp validate_roman([], roman_nums) do
     roman_to_num(roman_nums)
   end
 
